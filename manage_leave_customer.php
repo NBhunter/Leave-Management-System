@@ -32,7 +32,7 @@ if(isset($_GET['id'])){
 					<label for="" class="control-label">Thông tin khách hàng</label>
 				<div class="form-group">
 					<label for="" class="control-label">Tên khách hàng</label>
-					<select name="customer_id" id="customer_id" class="custom-select" required>
+					<select name="customer_id" id="customer_id"  class="custom-select" required>
 					<option value=""></option>
 					<?php 
 					$ct = $conn->query("SELECT * FROM `customer` ");
@@ -63,11 +63,17 @@ if(isset($_GET['id'])){
 	</div>
 </div>
 <script>
+	
 	$(document).ready(function(){
 		if('<?php echo isset($id) ?>' == 1){
 			$('#leave_type_id').trigger('change')
 		}
 	})
+	$(document).ready(function () {
+      $('#custom').selectize({
+          sortField: 'text'
+      });
+  });
 	$('#leave_type_id').change(function(){
 		start_load()
 		if($('.err-msg').length > 0)
@@ -144,5 +150,28 @@ if(isset($_GET['id'])){
 			}
 		})
 
-	})
+	});
+	function getOptions(isFilter) {
+    return {
+        enableFiltering: isFilter,
+        enableCaseInsensitiveFiltering: isFilter,
+        filterPlaceholder: 'Search ...',
+        nonSelectedText: 'Check an option!',
+        numberDisplayed: 1,
+        maxHeight: 400,
+    }
+}
+function getOptions(isFilter) {
+    return {
+        enableFiltering: isFilter,
+        enableCaseInsensitiveFiltering: isFilter,
+        filterPlaceholder: 'Search ...',
+        nonSelectedText: 'Check an option!',
+        numberDisplayed: 1,
+        maxHeight: 400,
+    }
+}
+
+$('#DDLState').multiselect(getOptions(true));
+$('#DDLCity').multiselect(getOptions());
 </script>

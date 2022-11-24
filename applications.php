@@ -56,10 +56,13 @@
 							</td>
 							<td>
 								<p>Nhân viên: <b><?php echo ucwords($row['name']). " (".$row['eID'].")" ?></b></p>
-								<p>Lí do: <b><?php echo [$row['reason']] ?></b></p>
-						
-								
+								<p>Lí do: <b><?php  echo ($row['reason']) ?></b></p>
 								<p>Quỹ:<b><?php  if($row['type'] == 2 && $row['status'] == 1) {$quy=$quy-$row['money'];} echo $quy; ?></b></p>
+								<?php if($row['type'] == 2): ?>
+									<p>loại Chi: <b>Khách hàng</b></p>
+								<?php elseif($row['type'] == 3): ?>
+									<p>loại Chi: <b>Nhà cung cấp</b></b></p>
+								<?php endif; ?>
 							</td>
 							<td>
 								<?php echo $row['money'] ?>

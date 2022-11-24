@@ -47,7 +47,11 @@
 							<td>
 								<p>Tháng: <b><?php echo $lt[$row['leave_type_id']] ?></b></p>
 								<p>Lí do: <b><?php  echo ($row['reason']) ?></b></p>
-					
+								<?php if($row['type'] == 2): ?>
+									<p>loại Chi: <b>Khách hàng</b></p>
+								<?php elseif($row['type'] == 3): ?>
+									<p>loại Chi: <b>Nhà cung cấp</b></b></p>
+								<?php endif; ?>
 							</td>
 							<td class="text-center">
 								<?php if($row['status'] == 0): ?>

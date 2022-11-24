@@ -12,6 +12,7 @@ if(isset($_GET['id'])){
 	<div class="col-lg-12">
 		<form action="" id="manage-leave">
 			<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
+			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '3' ?>">
 			<div class="form-group">
 				<label for="" class="control-label">Tháng</label>
 				<select name="leave_type_id" id="leave_type_id" class="custom-select" required>
@@ -27,6 +28,20 @@ if(isset($_GET['id'])){
 			</div>
 			<div class="on-ltchange" <?php echo isset($id) ? '' : 'style="display: none"' ?>>
 				<div class="form-group">
+				<br>
+					<label for="" class="control-label">Thông tin nhà cung cấp</label>
+				<div class="form-group">
+					<label for="" class="control-label">Tên nhà cung cấp</label>
+					<select name="customer_id" id="customer_id"  placeholder="Pick a state..."class="custom-select" required>
+					<option value=""></option>
+					<?php 
+					$ct = $conn->query("SELECT * FROM `customer` ");
+					while($row=$ct->fetch_array()):
+					?>
+					<option value="<?php echo $row['makh'] ?>" <?php echo isset($customer_id) && $customer_id == $row['makh'] ? "selected" : '' ?>><?php echo $row['tenkh'] ?></option>
+					<?php endwhile; ?>
+				</select>
+				</div>
 					<label for="" class="control-label">Ngày</label>
 					<input type="date" class="form-control" name="date_from" value="<?php echo isset($date_from) ? date("Y-m-d",strtotime($date_from)) : '' ?>">
 				</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2022 at 07:28 AM
+-- Generation Time: Nov 24, 2022 at 04:36 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -31,7 +31,7 @@ CREATE TABLE `customer` (
   `makh` int(11) NOT NULL,
   `tenkh` varchar(50) NOT NULL,
   `diachi` longtext NOT NULL,
-  `qlkhuvuc` int(11) DEFAULT NULL
+  `qlkhuvuc` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -39,10 +39,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`makh`, `tenkh`, `diachi`, `qlkhuvuc`) VALUES
-(1, 'Nguyễn Băng', 'Mỹ Phước, Long Xuyên, an Giang', 0),
+(1, 'Nguyễn Băng', 'Mỹ Phước, Long Xuyên, an Giang', '0'),
 (2, 'Ngọc Nhi', 'Mỹ Phước, Long Xuyên, An Giang', NULL),
 (3, 'Hoài Linh', 'Phú Tân, An Giang\r\n', NULL),
-(5, 'Đức Giàu', 'TP.HCM', 0);
+(5, 'Đức Giàu', 'TP.HCM', '0');
 
 -- --------------------------------------------------------
 
@@ -166,7 +166,7 @@ CREATE TABLE `leave_list` (
   `leave_type_id` int(30) NOT NULL,
   `date_from` date NOT NULL,
   `money` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Thu, 2= Chi',
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Thu, 2= Chi KH, 3 = Chi NCC',
   `reason` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=pending,1= approved,2 = disapproved',
   `approved_by` int(30) NOT NULL,
@@ -189,12 +189,13 @@ INSERT INTO `leave_list` (`id`, `employee_id`, `customer_id`, `leave_type_id`, `
 (35, 2, 0, 1, '2022-11-19', 500000, 2, 'a', 0, 0, '0000-00-00', '2022-11-18', NULL),
 (36, 5, 0, 1, '2022-11-19', 500000, 2, 'aa', 1, 2, '2022-11-18', '2022-11-18', NULL),
 (37, 5, 0, 1, '2022-11-19', 50000, 1, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
-(39, 5, 0, 3, '2023-01-01', 89000000, 0, 'abc', 0, 0, '0000-00-00', '2022-11-23', NULL),
-(40, 5, 0, 2, '2022-12-12', 50000, 0, 'aed', 0, 0, '0000-00-00', '2022-11-23', NULL),
-(41, 5, 0, 4, '2023-01-02', 500000, 0, 'customer', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(39, 5, 0, 3, '2023-01-01', 89000000, 3, 'abc', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(41, 5, 0, 4, '2023-01-02', 500000, 2, 'customer', 2, 0, '0000-00-00', '2022-11-23', NULL),
 (42, 5, 0, 3, '2023-01-15', 90000, 0, 'test2', 0, 0, '0000-00-00', '2022-11-23', NULL),
 (47, 5, 0, 3, '2023-01-01', 9000000, 0, 'non', 0, 0, '0000-00-00', '2022-11-24', NULL),
-(50, 5, 14, 4, '2023-02-12', 123456, 2, '123456', 1, 2, '2022-11-23', '2022-11-24', NULL);
+(50, 5, 14, 4, '2023-02-12', 123456, 2, '123456', 1, 2, '2022-11-23', '2022-11-24', NULL),
+(51, 5, 1, 3, '2023-01-11', 50000, 2, 'test2002', 0, 0, '0000-00-00', '2022-11-24', NULL),
+(52, 5, 0, 4, '2023-02-02', 150000, 2, 'test123213', 0, 0, '0000-00-00', '2022-11-24', NULL);
 
 -- --------------------------------------------------------
 
@@ -376,6 +377,18 @@ INSERT INTO `position` (`id`, `name`, `department_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
+  `sup_name` varchar(50) NOT NULL,
+  `sup_address` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -495,6 +508,12 @@ ALTER TABLE `position`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -532,7 +551,7 @@ ALTER TABLE `leave_credits`
 -- AUTO_INCREMENT for table `leave_list`
 --
 ALTER TABLE `leave_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `leave_type`
@@ -581,6 +600,12 @@ ALTER TABLE `offer_type`
 --
 ALTER TABLE `position`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
