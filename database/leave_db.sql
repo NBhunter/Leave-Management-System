@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2020 at 10:45 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.33
+-- Generation Time: Nov 24, 2022 at 07:28 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `leave_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `makh` int(11) NOT NULL,
+  `tenkh` varchar(50) NOT NULL,
+  `diachi` longtext NOT NULL,
+  `qlkhuvuc` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`makh`, `tenkh`, `diachi`, `qlkhuvuc`) VALUES
+(1, 'Nguyễn Băng', 'Mỹ Phước, Long Xuyên, an Giang', 0),
+(2, 'Ngọc Nhi', 'Mỹ Phước, Long Xuyên, An Giang', NULL),
+(3, 'Hoài Linh', 'Phú Tân, An Giang\r\n', NULL),
+(5, 'Đức Giàu', 'TP.HCM', 0);
 
 -- --------------------------------------------------------
 
@@ -39,9 +62,12 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`id`, `name`, `head_id`, `superintendent_id`) VALUES
-(1, 'Information Technology', 0, 0),
+(1, 'IT', 0, 0),
 (2, 'Marketing', 0, 0),
-(3, 'HR', 0, 0);
+(3, 'Nhân sự', 0, 0),
+(4, 'Kế toán', 0, 0),
+(5, 'Kinh doanh', 0, 0),
+(6, 'BGĐ', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -75,7 +101,18 @@ INSERT INTO `employee_details` (`id`, `user_id`, `employee_id`, `lastname`, `fir
 (4, 2, '39303658', 'Blake', 'Claire', 'E', 'Sample', '065465425', 1, 5, 5, 3, 6),
 (5, 4, '83534061', 'Martin', 'Ben', 'C', 'Sample', 'Sample', 1, 5, 5, 3, 0),
 (6, 6, '69930211', 'Williams', 'Mike', 'B', 'Sample', '45621', 1, 6, 4, 3, 0),
-(7, 3, '05785111', 'Link', 'Jackie', 'S', 'Sample', '1324347', 3, 7, 1, 0, 0);
+(7, 3, '05785111', 'Link', 'Jackie', 'S', 'Sample', '1324347', 3, 7, 1, 0, 0),
+(8, 9, '46858358', 'Giàu', 'Đinh', 'Đức', 'aaaa', '098978941', 2, 4, 3, 0, 0),
+(9, 10, '01235535', 'Chúc', 'Nguyễn', 'Văn', 'aaaa', '45452', 4, 9, 3, 0, 0),
+(10, 11, '62277935', 'Van', 'Cao', 'Thuy', 'aaa', '5120', 4, 8, 5, 9, 0),
+(11, 12, '72275214', 'Hân', 'Dương', 'Lạc', 'aaa', '09099', 6, 10, 1, 0, 0),
+(12, 13, '28946244', 'Tu', 'Ly ', 'Thi Cam', 'aaaa', '0909000', 6, 11, 1, 0, 0),
+(13, 14, '23403024', 'Thoa', 'Ly', 'Thi Kim', 'aaa', '09095657', 6, 12, 1, 0, 0),
+(14, 15, '55206317', 'Yen', 'Ly', 'Thi Hai', 'aaa', '090999999', 6, 14, 1, 0, 0),
+(15, 16, '54111043', 'Hoa', 'Ly', 'Thuy', 'aaa', '09999999', 6, 13, 1, 0, 0),
+(16, 17, '04112302', 'Thong', 'Tiet', 'Hoang', 'aaa', '0999999', 6, 15, 1, 0, 0),
+(17, 18, '47608211', 'Thuy', 'Vu', 'Thi Anh', 'aaa', '0666666', 4, 8, 5, 9, 0),
+(18, 19, '53564274', 'Dung', 'Ta ', 'Thi Ngoc', 'aaa', '06866666', 4, 8, 5, 9, 0);
 
 -- --------------------------------------------------------
 
@@ -125,23 +162,39 @@ INSERT INTO `leave_credits` (`id`, `leave_type_id`, `employee_id`, `credits`) VA
 CREATE TABLE `leave_list` (
   `id` int(30) NOT NULL,
   `employee_id` int(30) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `leave_type_id` int(30) NOT NULL,
   `date_from` date NOT NULL,
-  `date_to` date NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Whole Day, 2= Half Day',
+  `money` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Thu, 2= Chi',
   `reason` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=pending,1= approved,2 = disapproved',
   `approved_by` int(30) NOT NULL,
   `date_approved` date NOT NULL,
-  `date_created` date NOT NULL DEFAULT current_timestamp()
+  `date_created` date NOT NULL DEFAULT current_timestamp(),
+  `quy` int(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `leave_list`
 --
 
-INSERT INTO `leave_list` (`id`, `employee_id`, `leave_type_id`, `date_from`, `date_to`, `type`, `reason`, `status`, `approved_by`, `date_approved`, `date_created`) VALUES
-(2, 4, 1, '2020-10-19', '2020-10-22', 1, 'Sample Only', 1, 2, '2020-10-12', '2020-10-12');
+INSERT INTO `leave_list` (`id`, `employee_id`, `customer_id`, `leave_type_id`, `date_from`, `money`, `type`, `reason`, `status`, `approved_by`, `date_approved`, `date_created`, `quy`) VALUES
+(2, 4, 0, 1, '2020-10-19', 0, 1, 'Sample Only', 1, 2, '2022-11-18', '2020-10-12', 1000000),
+(15, 5, 0, 4, '2022-11-12', 500000, 1, 'hi', 1, 2, '2022-11-18', '2022-11-18', 0),
+(16, 5, 0, 4, '2022-11-19', 500000, 1, '1', 1, 2, '2022-11-18', '2022-11-18', 0),
+(24, 5, 0, 3, '2022-11-10', 100900, 1, '111', 1, 2, '2022-11-18', '2022-11-18', 0),
+(33, 2, 0, 1, '2022-11-26', 500000, 1, 'a00', 0, 0, '0000-00-00', '2022-11-18', NULL),
+(34, 5, 0, 4, '2022-11-18', 500000, 2, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(35, 2, 0, 1, '2022-11-19', 500000, 2, 'a', 0, 0, '0000-00-00', '2022-11-18', NULL),
+(36, 5, 0, 1, '2022-11-19', 500000, 2, 'aa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(37, 5, 0, 1, '2022-11-19', 50000, 1, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(39, 5, 0, 3, '2023-01-01', 89000000, 0, 'abc', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(40, 5, 0, 2, '2022-12-12', 50000, 0, 'aed', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(41, 5, 0, 4, '2023-01-02', 500000, 0, 'customer', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(42, 5, 0, 3, '2023-01-15', 90000, 0, 'test2', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(47, 5, 0, 3, '2023-01-01', 9000000, 0, 'non', 0, 0, '0000-00-00', '2022-11-24', NULL),
+(50, 5, 14, 4, '2023-02-12', 123456, 2, '123456', 1, 2, '2022-11-23', '2022-11-24', NULL);
 
 -- --------------------------------------------------------
 
@@ -161,10 +214,131 @@ CREATE TABLE `leave_type` (
 --
 
 INSERT INTO `leave_type` (`id`, `name`, `description`, `is_payable`) VALUES
-(1, 'Vacation Leave (VL)', 'Vacation Leave', 1),
-(2, 'SL', 'Sick Leave', 1),
-(3, 'EL', 'Emergency Leave', 0),
-(4, 'LWOP', 'Leave without pay', 0);
+(1, '11/2022', '', 0),
+(2, '12/2022', '', 0),
+(3, '01/2023', '', 0),
+(4, '02/2023', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `note_credits`
+--
+
+CREATE TABLE `note_credits` (
+  `id` int(11) NOT NULL,
+  `note_type_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `credits` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `note_credits`
+--
+
+INSERT INTO `note_credits` (`id`, `note_type_id`, `employee_id`, `credits`) VALUES
+(1, 1, 9, 1000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `note_list`
+--
+
+CREATE TABLE `note_list` (
+  `id` int(30) NOT NULL,
+  `employee_id` int(30) NOT NULL,
+  `note_type_id` int(30) NOT NULL,
+  `date` date NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Phiếu Chi, 2= Phiếu Thu',
+  `reason` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL COMMENT '0=pending,1= approved,2 = disapproved	',
+  `approved_by` int(11) NOT NULL,
+  `date_approved` date NOT NULL,
+  `date_create` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `note_type`
+--
+
+CREATE TABLE `note_type` (
+  `id` int(11) NOT NULL,
+  `name` text CHARACTER SET utf8mb4 NOT NULL,
+  `description` text CHARACTER SET utf8mb4 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `note_type`
+--
+
+INSERT INTO `note_type` (`id`, `name`, `description`) VALUES
+(1, 'hihi', 'hihi');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offer_credits`
+--
+
+CREATE TABLE `offer_credits` (
+  `id` int(30) NOT NULL,
+  `offer_type_id` int(30) NOT NULL,
+  `employee_id` int(30) NOT NULL,
+  `credits` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `offer_credits`
+--
+
+INSERT INTO `offer_credits` (`id`, `offer_type_id`, `employee_id`, `credits`) VALUES
+(1, 1, 8, 0),
+(2, 1, 5, 10),
+(3, 1, 4, 10),
+(4, 2, 4, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offer_list`
+--
+
+CREATE TABLE `offer_list` (
+  `id` int(30) NOT NULL,
+  `employeed_id` int(30) NOT NULL,
+  `offer_type_id` int(30) NOT NULL,
+  `noidung` text COLLATE utf8_unicode_ci NOT NULL,
+  `soluong` int(11) NOT NULL,
+  `donvitinh` text COLLATE utf8_unicode_ci NOT NULL,
+  `sotien` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL COMMENT '0=pending,1= approved,2 = disapproved',
+  `approved_by` int(30) NOT NULL,
+  `date_approved` date NOT NULL,
+  `date_created` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offer_type`
+--
+
+CREATE TABLE `offer_type` (
+  `id` int(30) NOT NULL,
+  `name` text COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `offer_type`
+--
+
+INSERT INTO `offer_type` (`id`, `name`, `description`) VALUES
+(1, 'Mua mới', 'phụ tùng, vật tư'),
+(2, 'Sửa chữa', 'Vật tư, máy móc');
 
 -- --------------------------------------------------------
 
@@ -183,13 +357,21 @@ CREATE TABLE `position` (
 --
 
 INSERT INTO `position` (`id`, `name`, `department_id`) VALUES
-(1, 'Department Head', 1),
-(2, 'Manager', 1),
-(3, 'Department Head', 2),
-(4, 'Manager', 2),
-(5, 'Programmer', 1),
-(6, 'Lead Developer', 1),
-(7, 'Department Head', 3);
+(1, 'Trưởng phòng', 1),
+(2, 'Người quản lí', 1),
+(3, 'Trưởng phòng', 2),
+(4, 'Người quản lí', 2),
+(5, 'Lập trình viên', 1),
+(6, 'Giám đốc', 1),
+(7, 'Trưởng phòng', 3),
+(8, 'Nhân viên', 4),
+(9, 'Trưởng phòng', 4),
+(10, 'Thư Kí', 6),
+(11, 'Chủ tịch', 6),
+(12, 'Thủ quỹ', 6),
+(13, 'Giám đốc Điều Hành', 6),
+(14, 'Giám đốc kinh doanh', 6),
+(15, 'Giám đốc sản xuất', 6);
 
 -- --------------------------------------------------------
 
@@ -213,15 +395,32 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `type`, `username`, `password`, `auto_generated`) VALUES
 (1, 'Administrator', 1, 'admin', '0192023a7bbd73250516f069df18b500', ''),
 (2, 'Claire Blake', 2, 'CBlake_39303658', 'a06d46beed6a0968520950e25a281e34', ''),
-(3, 'Jackie Link', 2, 'JLink_05785111', '37f1d137d0f21f1745737611a92da605', ''),
-(4, 'Ben Martin', 2, 'BMartin_83534061', '4149d4d9dc154634c8ee00c2606ec51e', ''),
-(5, 'John Smith', 2, 'JSmith_51842843', 'e16897e0ffe77b91694adb95e0ed6b80', ''),
+(3, 'Kho1', 2, 'Kho1', '202cb962ac59075b964b07152d234b70', ''),
+(4, 'Ben Martin', 2, 'BMar', '202cb962ac59075b964b07152d234b70', ''),
+(5, 'John Smith', 2, 'giau1', '202cb962ac59075b964b07152d234b70', ''),
 (6, 'Mike Williams', 2, 'MWilliams_69930211', '563a60169e3bf2ca437dd384edcbdd03', ''),
-(7, 'George Wilson', 2, 'GWilson_97558385', '92186b07f90bec4a14aae103bd6e22ed', '');
+(7, 'Kho2', 2, 'kho2', '202cb962ac59075b964b07152d234b70', ''),
+(9, 'Đinh Giàu', 2, 'Giau', '202cb962ac59075b964b07152d234b70', ''),
+(10, 'Nguyễn Chúc', 2, 'vanchuc', '202cb962ac59075b964b07152d234b70', ''),
+(11, 'Cao Van', 2, 'vancao', '202cb962ac59075b964b07152d234b70', ''),
+(12, 'Dương Hân', 2, 'lachan', '202cb962ac59075b964b07152d234b70', ''),
+(13, 'Ly  Tu', 2, 'camtu', '202cb962ac59075b964b07152d234b70', ''),
+(14, 'Ly Thoa', 2, 'LThoa_23403024', '0350f77e79bc44dfc5a4cc2aa1ccb2e6', ''),
+(15, 'Ly Yen', 2, 'LYen_55206317', 'c32de2cce838a925e082fa7b40099676', ''),
+(16, 'Ly Hoa', 2, 'LHoa_54111043', 'b036608ccf6520b332b410cd9e7d6dd5', ''),
+(17, 'Tiet Thong', 2, 'TThong_04112302', '17a07301218588bb335aa1856c271fc0', ''),
+(18, 'Vu Thuy', 2, 'VThuy_47608211', '5c202583b86d616cf64187499bde48c6', ''),
+(19, 'Ta  Dung', 2, 'TDung_53564274', '218f99c0d1ffbaee45f089a100b675b7', '');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`makh`);
 
 --
 -- Indexes for table `department`
@@ -254,6 +453,42 @@ ALTER TABLE `leave_type`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `note_credits`
+--
+ALTER TABLE `note_credits`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `note_list`
+--
+ALTER TABLE `note_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `note_type`
+--
+ALTER TABLE `note_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offer_credits`
+--
+ALTER TABLE `offer_credits`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offer_list`
+--
+ALTER TABLE `offer_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offer_type`
+--
+ALTER TABLE `offer_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `position`
 --
 ALTER TABLE `position`
@@ -270,16 +505,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `makh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `employee_details`
 --
 ALTER TABLE `employee_details`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `leave_credits`
@@ -291,7 +532,7 @@ ALTER TABLE `leave_credits`
 -- AUTO_INCREMENT for table `leave_list`
 --
 ALTER TABLE `leave_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `leave_type`
@@ -300,16 +541,52 @@ ALTER TABLE `leave_type`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `note_credits`
+--
+ALTER TABLE `note_credits`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `note_list`
+--
+ALTER TABLE `note_list`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `note_type`
+--
+ALTER TABLE `note_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `offer_credits`
+--
+ALTER TABLE `offer_credits`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `offer_list`
+--
+ALTER TABLE `offer_list`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `offer_type`
+--
+ALTER TABLE `offer_type`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
