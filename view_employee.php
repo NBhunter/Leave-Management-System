@@ -67,7 +67,7 @@ endwhile;
 						while($row=$qry->fetch_assoc()):
 							$credits = isset($lc[$row['id']]) ? $lc[$row['id']] : 0 ;
 							$used = 0;
-						$leave = $conn->query("SELECT * FROM leave_list where leave_type_id = '".$row['id']."' and employee_id= ".$id." and date_format(date_from,'%Y') = '".date('Y')."' and date_format(date_to,'%Y') = '".date('Y')."'and status != 2 "); 
+						$leave = $conn->query("SELECT * FROM leave_list where leave_type_id = '".$row['id']."' and employee_id= ".$id." and date_format(date_from,'%Y') = '".date('Y')."' and status != 2 "); 
 								while($lrow= $leave->fetch_array()){
 										for($i = 1; $i <= $days; $i++){
 											$used = $i / $lrow['type'];
