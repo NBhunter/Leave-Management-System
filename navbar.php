@@ -19,6 +19,7 @@
 				<?php if(isset($_SESSION['details']['type']) && $_SESSION['details']['type'] > 1): ?>
 				<a href="javascript:void(0)" class="nav-item" id="add_leave_customer"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi khách hàng</a>
 				<a href="javascript:void(0)" class="nav-item" id="add_leave_supplier"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi nhà cung cấp</a>
+				<a href="javascript:void(0)" class="nav-item" id="add_leave"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi </a>
 				<a href="javascript:void(0)" class="nav-item" id="add_thu"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu thu</a>
 				<a href="javascript:void(0)" class="nav-item" id="add_customer"><span class='icon-field'><i class="fa fa-plus">	</i></span> Thêm khách hàng</a>
 				<a href="index.php?page=my_applications" class="nav-item nav-my_applications"><span class='icon-field'><i class="fa fa-th-list">	</i></span>Phiếu chi của tôi</a>
@@ -47,9 +48,9 @@
 		uni_modal("Phiếu chi Khách Hàng mới","manage_leave_customer.php","mid-large")
 	})
 	$('#add_leave_supplier').click(function(){
-		uni_modal("Phiếu chi nhà cung cấp mới","manage_leave.php","mid-large")
+		uni_modal("Phiếu chi nhà cung cấp mới","manage_leave_supplier.php","mid-large")
 	})
-	$('#add_thu').click(function(){
+	$('#add_leave').click(function(){
 		uni_modal("New Leave Application","manage_leave.php","mid-large")
 	})
 	$('#add_customer').click(function(){

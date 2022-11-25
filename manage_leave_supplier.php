@@ -10,9 +10,9 @@ if(isset($_GET['id'])){
 ?>
 <div class="container-fluid">
 	<div class="col-lg-12">
-		<form action="" id="manage-leave">
+		<form action="" id="manage-leave-supplier">
 			<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '4' ?>">
+			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '3' ?>">
 			<div class="form-group">
 				<label for="" class="control-label">Tháng</label>
 				<select name="leave_type_id" id="leave_type_id" class="custom-select" required>
@@ -28,7 +28,20 @@ if(isset($_GET['id'])){
 			</div>
 			<div class="on-ltchange" <?php echo isset($id) ? '' : 'style="display: none"' ?>>
 				<div class="form-group">
-				
+				<br>
+					<label for="" class="control-label">Thông tin nhà cung cấp</label>
+				<div class="form-group">
+					<label for="" class="control-label">Tên nhà cung cấp</label>
+					<select name="supplier_id" id="supplier_id"  placeholder="Pick a state..."class="custom-select" required>
+					<option value=""></option>
+					<?php 
+					$ct = $conn->query("SELECT * FROM `supplier` ");
+					while($row=$ct->fetch_array()):
+					?>
+					<option value="<?php echo $row['id'] ?>" <?php echo isset($supplier_id) && $supplier_id == $row['id'] ? "selected" : '' ?>><?php echo $row['sup_name'] ?></option>
+					<?php endwhile; ?>
+				</select>
+				</div>
 					<label for="" class="control-label">Ngày</label>
 					<input type="date" class="form-control" name="date_from" value="<?php echo isset($date_from) ? date("Y-m-d",strtotime($date_from)) : '' ?>">
 				</div>
@@ -106,13 +119,13 @@ if(isset($_GET['id'])){
 			}
 
 	})
-	$('#manage-leave').submit(function(e){
+	$('#manage-leave-supplier').submit(function(e){
 		e.preventDefault()
 		if($('.err-msg').length > 0)
 			return false;
 		start_load()
 		$.ajax({
-			url:'ajax.php?action=save_leave',
+			url:'ajax.php?action=save_leave_supplier',
 			method:'POST',
 			data:$(this).serialize(),
 			success:function(resp){

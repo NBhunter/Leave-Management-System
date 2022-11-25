@@ -388,6 +388,23 @@ Class Action {
 			if($save)
 				return 1;
 	}
+	function save_leave_supplier(){
+		extract($_POST);
+			$data=" leave_type_id = '$leave_type_id' ";
+			$data.=", type = '$type' ";
+			$data.=", supplier_id = '$supplier_id' ";
+			$data.=", employee_id = ".$_SESSION['details']['id']." ";
+			$data.=", date_from = '$date_from' ";
+			$data.=",money = '$money' ";
+			$data.=", reason = '$reason' ";		
+ 			if(empty($id)){
+			   $save = $this->db->query("INSERT INTO leave_list set $data");
+			}else{
+				$save = $this->db->query("UPDATE leave_list set $data where id = $id");
+			}
+			if($save)
+				return 1;
+	}
 	function save_customer(){
 		extract($_POST);
 			$data=" makh = '$makh' ";

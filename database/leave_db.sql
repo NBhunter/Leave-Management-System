@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 24, 2022 at 04:36 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th10 25, 2022 lúc 03:05 PM
+-- Phiên bản máy phục vụ: 10.4.24-MariaDB
+-- Phiên bản PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `leave_db`
+-- Cơ sở dữ liệu: `leave_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Cấu trúc bảng cho bảng `customer`
 --
 
 CREATE TABLE `customer` (
@@ -35,7 +35,7 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `customer`
+-- Đang đổ dữ liệu cho bảng `customer`
 --
 
 INSERT INTO `customer` (`makh`, `tenkh`, `diachi`, `qlkhuvuc`) VALUES
@@ -47,7 +47,7 @@ INSERT INTO `customer` (`makh`, `tenkh`, `diachi`, `qlkhuvuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `department`
+-- Cấu trúc bảng cho bảng `department`
 --
 
 CREATE TABLE `department` (
@@ -58,7 +58,7 @@ CREATE TABLE `department` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `department`
+-- Đang đổ dữ liệu cho bảng `department`
 --
 
 INSERT INTO `department` (`id`, `name`, `head_id`, `superintendent_id`) VALUES
@@ -72,7 +72,7 @@ INSERT INTO `department` (`id`, `name`, `head_id`, `superintendent_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employee_details`
+-- Cấu trúc bảng cho bảng `employee_details`
 --
 
 CREATE TABLE `employee_details` (
@@ -92,7 +92,7 @@ CREATE TABLE `employee_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `employee_details`
+-- Đang đổ dữ liệu cho bảng `employee_details`
 --
 
 INSERT INTO `employee_details` (`id`, `user_id`, `employee_id`, `lastname`, `firstname`, `middlename`, `address`, `contact`, `department_id`, `position_id`, `type`, `manager_id`, `supervisor_id`) VALUES
@@ -117,7 +117,7 @@ INSERT INTO `employee_details` (`id`, `user_id`, `employee_id`, `lastname`, `fir
 -- --------------------------------------------------------
 
 --
--- Table structure for table `leave_credits`
+-- Cấu trúc bảng cho bảng `leave_credits`
 --
 
 CREATE TABLE `leave_credits` (
@@ -128,7 +128,7 @@ CREATE TABLE `leave_credits` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `leave_credits`
+-- Đang đổ dữ liệu cho bảng `leave_credits`
 --
 
 INSERT INTO `leave_credits` (`id`, `leave_type_id`, `employee_id`, `credits`) VALUES
@@ -151,22 +151,24 @@ INSERT INTO `leave_credits` (`id`, `leave_type_id`, `employee_id`, `credits`) VA
 (17, 3, 3, 10),
 (18, 4, 3, 10),
 (19, 2, 3, 10),
-(20, 1, 3, 10);
+(20, 1, 3, 10),
+(21, 1, 10, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `leave_list`
+-- Cấu trúc bảng cho bảng `leave_list`
 --
 
 CREATE TABLE `leave_list` (
   `id` int(30) NOT NULL,
   `employee_id` int(30) NOT NULL,
   `customer_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
   `leave_type_id` int(30) NOT NULL,
   `date_from` date NOT NULL,
   `money` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Thu, 2= Chi KH, 3 = Chi NCC',
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Thu, 2= Chi KH, 3 = Chi NCC, 4 = Chi',
   `reason` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=pending,1= approved,2 = disapproved',
   `approved_by` int(30) NOT NULL,
@@ -176,31 +178,32 @@ CREATE TABLE `leave_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `leave_list`
+-- Đang đổ dữ liệu cho bảng `leave_list`
 --
 
-INSERT INTO `leave_list` (`id`, `employee_id`, `customer_id`, `leave_type_id`, `date_from`, `money`, `type`, `reason`, `status`, `approved_by`, `date_approved`, `date_created`, `quy`) VALUES
-(2, 4, 0, 1, '2020-10-19', 0, 1, 'Sample Only', 1, 2, '2022-11-18', '2020-10-12', 1000000),
-(15, 5, 0, 4, '2022-11-12', 500000, 1, 'hi', 1, 2, '2022-11-18', '2022-11-18', 0),
-(16, 5, 0, 4, '2022-11-19', 500000, 1, '1', 1, 2, '2022-11-18', '2022-11-18', 0),
-(24, 5, 0, 3, '2022-11-10', 100900, 1, '111', 1, 2, '2022-11-18', '2022-11-18', 0),
-(33, 2, 0, 1, '2022-11-26', 500000, 1, 'a00', 0, 0, '0000-00-00', '2022-11-18', NULL),
-(34, 5, 0, 4, '2022-11-18', 500000, 2, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
-(35, 2, 0, 1, '2022-11-19', 500000, 2, 'a', 0, 0, '0000-00-00', '2022-11-18', NULL),
-(36, 5, 0, 1, '2022-11-19', 500000, 2, 'aa', 1, 2, '2022-11-18', '2022-11-18', NULL),
-(37, 5, 0, 1, '2022-11-19', 50000, 1, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
-(39, 5, 0, 3, '2023-01-01', 89000000, 3, 'abc', 0, 0, '0000-00-00', '2022-11-23', NULL),
-(41, 5, 0, 4, '2023-01-02', 500000, 2, 'customer', 2, 0, '0000-00-00', '2022-11-23', NULL),
-(42, 5, 0, 3, '2023-01-15', 90000, 0, 'test2', 0, 0, '0000-00-00', '2022-11-23', NULL),
-(47, 5, 0, 3, '2023-01-01', 9000000, 0, 'non', 0, 0, '0000-00-00', '2022-11-24', NULL),
-(50, 5, 14, 4, '2023-02-12', 123456, 2, '123456', 1, 2, '2022-11-23', '2022-11-24', NULL),
-(51, 5, 1, 3, '2023-01-11', 50000, 2, 'test2002', 0, 0, '0000-00-00', '2022-11-24', NULL),
-(52, 5, 0, 4, '2023-02-02', 150000, 2, 'test123213', 0, 0, '0000-00-00', '2022-11-24', NULL);
+INSERT INTO `leave_list` (`id`, `employee_id`, `customer_id`, `supplier_id`, `leave_type_id`, `date_from`, `money`, `type`, `reason`, `status`, `approved_by`, `date_approved`, `date_created`, `quy`) VALUES
+(2, 4, 0, 0, 1, '2020-10-19', 0, 1, 'Sample Only', 1, 2, '2022-11-18', '2020-10-12', 1000000),
+(15, 5, 0, 0, 4, '2022-11-12', 500000, 1, 'hi', 1, 2, '2022-11-18', '2022-11-18', 0),
+(16, 5, 0, 0, 4, '2022-11-19', 500000, 1, '1', 1, 2, '2022-11-18', '2022-11-18', 0),
+(24, 5, 0, 0, 3, '2022-11-10', 100900, 1, '111', 1, 2, '2022-11-18', '2022-11-18', 0),
+(33, 2, 0, 0, 1, '2022-11-26', 500000, 1, 'a00', 0, 0, '0000-00-00', '2022-11-18', NULL),
+(34, 5, 0, 0, 4, '2022-11-18', 500000, 2, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(35, 2, 0, 0, 1, '2022-11-19', 500000, 2, 'a', 0, 0, '0000-00-00', '2022-11-18', NULL),
+(36, 5, 0, 0, 1, '2022-11-19', 500000, 2, 'aa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(37, 5, 0, 0, 1, '2022-11-19', 50000, 1, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(39, 5, 0, 0, 3, '2023-01-01', 89000000, 3, 'abc', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(41, 5, 0, 0, 4, '2023-01-02', 500000, 2, 'customer', 2, 0, '0000-00-00', '2022-11-23', NULL),
+(42, 5, 0, 0, 3, '2023-01-15', 90000, 0, 'test2', 0, 0, '0000-00-00', '2022-11-23', NULL),
+(47, 5, 0, 0, 3, '2023-01-01', 9000000, 0, 'non', 0, 0, '0000-00-00', '2022-11-24', NULL),
+(50, 5, 14, 0, 4, '2023-02-12', 123456, 2, '123456', 1, 2, '2022-11-23', '2022-11-24', NULL),
+(51, 5, 1, 0, 3, '2023-01-11', 50000, 2, 'test2002', 0, 0, '0000-00-00', '2022-11-24', NULL),
+(52, 5, 0, 0, 4, '2023-02-02', 150000, 2, 'test123213', 0, 0, '0000-00-00', '2022-11-24', NULL),
+(53, 5, 0, 1, 3, '2023-01-12', 50000, 3, 'van chuyen hang', 0, 0, '0000-00-00', '2022-11-25', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `leave_type`
+-- Cấu trúc bảng cho bảng `leave_type`
 --
 
 CREATE TABLE `leave_type` (
@@ -211,7 +214,7 @@ CREATE TABLE `leave_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `leave_type`
+-- Đang đổ dữ liệu cho bảng `leave_type`
 --
 
 INSERT INTO `leave_type` (`id`, `name`, `description`, `is_payable`) VALUES
@@ -223,7 +226,7 @@ INSERT INTO `leave_type` (`id`, `name`, `description`, `is_payable`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `note_credits`
+-- Cấu trúc bảng cho bảng `note_credits`
 --
 
 CREATE TABLE `note_credits` (
@@ -234,7 +237,7 @@ CREATE TABLE `note_credits` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `note_credits`
+-- Đang đổ dữ liệu cho bảng `note_credits`
 --
 
 INSERT INTO `note_credits` (`id`, `note_type_id`, `employee_id`, `credits`) VALUES
@@ -243,7 +246,7 @@ INSERT INTO `note_credits` (`id`, `note_type_id`, `employee_id`, `credits`) VALU
 -- --------------------------------------------------------
 
 --
--- Table structure for table `note_list`
+-- Cấu trúc bảng cho bảng `note_list`
 --
 
 CREATE TABLE `note_list` (
@@ -262,7 +265,7 @@ CREATE TABLE `note_list` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `note_type`
+-- Cấu trúc bảng cho bảng `note_type`
 --
 
 CREATE TABLE `note_type` (
@@ -272,7 +275,7 @@ CREATE TABLE `note_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `note_type`
+-- Đang đổ dữ liệu cho bảng `note_type`
 --
 
 INSERT INTO `note_type` (`id`, `name`, `description`) VALUES
@@ -281,7 +284,7 @@ INSERT INTO `note_type` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offer_credits`
+-- Cấu trúc bảng cho bảng `offer_credits`
 --
 
 CREATE TABLE `offer_credits` (
@@ -292,7 +295,7 @@ CREATE TABLE `offer_credits` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `offer_credits`
+-- Đang đổ dữ liệu cho bảng `offer_credits`
 --
 
 INSERT INTO `offer_credits` (`id`, `offer_type_id`, `employee_id`, `credits`) VALUES
@@ -304,7 +307,7 @@ INSERT INTO `offer_credits` (`id`, `offer_type_id`, `employee_id`, `credits`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offer_list`
+-- Cấu trúc bảng cho bảng `offer_list`
 --
 
 CREATE TABLE `offer_list` (
@@ -324,7 +327,7 @@ CREATE TABLE `offer_list` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `offer_type`
+-- Cấu trúc bảng cho bảng `offer_type`
 --
 
 CREATE TABLE `offer_type` (
@@ -334,7 +337,7 @@ CREATE TABLE `offer_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `offer_type`
+-- Đang đổ dữ liệu cho bảng `offer_type`
 --
 
 INSERT INTO `offer_type` (`id`, `name`, `description`) VALUES
@@ -344,7 +347,7 @@ INSERT INTO `offer_type` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `position`
+-- Cấu trúc bảng cho bảng `position`
 --
 
 CREATE TABLE `position` (
@@ -354,7 +357,7 @@ CREATE TABLE `position` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `position`
+-- Đang đổ dữ liệu cho bảng `position`
 --
 
 INSERT INTO `position` (`id`, `name`, `department_id`) VALUES
@@ -377,7 +380,7 @@ INSERT INTO `position` (`id`, `name`, `department_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supplier`
+-- Cấu trúc bảng cho bảng `supplier`
 --
 
 CREATE TABLE `supplier` (
@@ -386,10 +389,18 @@ CREATE TABLE `supplier` (
   `sup_address` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Đang đổ dữ liệu cho bảng `supplier`
+--
+
+INSERT INTO `supplier` (`id`, `sup_name`, `sup_address`) VALUES
+(1, 'CTY van chuyen ABC', 'TP.HCM'),
+(2, 'CTY van chuyen Bắc  Nam', 'TP.HCM');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -402,7 +413,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `users`
+-- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `type`, `username`, `password`, `auto_generated`) VALUES
@@ -426,189 +437,189 @@ INSERT INTO `users` (`id`, `name`, `type`, `username`, `password`, `auto_generat
 (19, 'Ta  Dung', 2, 'TDung_53564274', '218f99c0d1ffbaee45f089a100b675b7', '');
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `customer`
+-- Chỉ mục cho bảng `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`makh`);
 
 --
--- Indexes for table `department`
+-- Chỉ mục cho bảng `department`
 --
 ALTER TABLE `department`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `employee_details`
+-- Chỉ mục cho bảng `employee_details`
 --
 ALTER TABLE `employee_details`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `leave_credits`
+-- Chỉ mục cho bảng `leave_credits`
 --
 ALTER TABLE `leave_credits`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `leave_list`
+-- Chỉ mục cho bảng `leave_list`
 --
 ALTER TABLE `leave_list`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `leave_type`
+-- Chỉ mục cho bảng `leave_type`
 --
 ALTER TABLE `leave_type`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `note_credits`
+-- Chỉ mục cho bảng `note_credits`
 --
 ALTER TABLE `note_credits`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `note_list`
+-- Chỉ mục cho bảng `note_list`
 --
 ALTER TABLE `note_list`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `note_type`
+-- Chỉ mục cho bảng `note_type`
 --
 ALTER TABLE `note_type`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `offer_credits`
+-- Chỉ mục cho bảng `offer_credits`
 --
 ALTER TABLE `offer_credits`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `offer_list`
+-- Chỉ mục cho bảng `offer_list`
 --
 ALTER TABLE `offer_list`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `offer_type`
+-- Chỉ mục cho bảng `offer_type`
 --
 ALTER TABLE `offer_type`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `position`
+-- Chỉ mục cho bảng `position`
 --
 ALTER TABLE `position`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `supplier`
+-- Chỉ mục cho bảng `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `customer`
+-- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
   MODIFY `makh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `department`
+-- AUTO_INCREMENT cho bảng `department`
 --
 ALTER TABLE `department`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `employee_details`
+-- AUTO_INCREMENT cho bảng `employee_details`
 --
 ALTER TABLE `employee_details`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `leave_credits`
+-- AUTO_INCREMENT cho bảng `leave_credits`
 --
 ALTER TABLE `leave_credits`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `leave_list`
+-- AUTO_INCREMENT cho bảng `leave_list`
 --
 ALTER TABLE `leave_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
--- AUTO_INCREMENT for table `leave_type`
+-- AUTO_INCREMENT cho bảng `leave_type`
 --
 ALTER TABLE `leave_type`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `note_credits`
+-- AUTO_INCREMENT cho bảng `note_credits`
 --
 ALTER TABLE `note_credits`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `note_list`
+-- AUTO_INCREMENT cho bảng `note_list`
 --
 ALTER TABLE `note_list`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `note_type`
+-- AUTO_INCREMENT cho bảng `note_type`
 --
 ALTER TABLE `note_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `offer_credits`
+-- AUTO_INCREMENT cho bảng `offer_credits`
 --
 ALTER TABLE `offer_credits`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `offer_list`
+-- AUTO_INCREMENT cho bảng `offer_list`
 --
 ALTER TABLE `offer_list`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `offer_type`
+-- AUTO_INCREMENT cho bảng `offer_type`
 --
 ALTER TABLE `offer_type`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `position`
+-- AUTO_INCREMENT cho bảng `position`
 --
 ALTER TABLE `position`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `supplier`
+-- AUTO_INCREMENT cho bảng `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
