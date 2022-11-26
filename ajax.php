@@ -129,6 +129,11 @@ if($action == "save_customer"){
 	if($save)
 		echo $save;
 }
+if($action == "save_supplier"){
+	$save = $crud->save_supplier();
+	if($save)
+		echo $save;
+}
 if($action == "action_leave"){
 	$save = $crud->action_leave();
 	if($save)

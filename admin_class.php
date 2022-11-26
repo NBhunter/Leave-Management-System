@@ -419,6 +419,20 @@ Class Action {
 			if($save)
 				return 1;
 	}
+	function save_supplier(){
+		extract($_POST);
+			$data=" id = '$id' ";
+			$data.=", sup_name = '$sup_name' ";
+			$data.=", sup_address = '$sup_address' ";
+			
+ 			if(empty($makh)){
+			   $save = $this->db->query("INSERT INTO supplier set $data");
+			}else{
+				$save = $this->db->query("UPDATE supplier set $data where makh = $id");
+			}
+			if($save)
+				return 1;
+	}
 	function delete_leave(){
 		extract($_POST);
 		$delete = $this->db->query("DELETE FROM leave_list where id = ".$id);

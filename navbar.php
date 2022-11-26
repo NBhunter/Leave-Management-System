@@ -22,9 +22,10 @@
 				<a href="javascript:void(0)" class="nav-item" id="add_leave"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi </a>
 				<a href="javascript:void(0)" class="nav-item" id="add_thu"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu thu</a>
 				<a href="javascript:void(0)" class="nav-item" id="add_customer"><span class='icon-field'><i class="fa fa-plus">	</i></span> Thêm khách hàng</a>
+				<a href="javascript:void(0)" class="nav-item" id="add_supplier"><span class='icon-field'><i class="fa fa-plus">	</i></span> Thêm nhà cung cấp</a>
 				<a href="index.php?page=my_applications" class="nav-item nav-my_applications"><span class='icon-field'><i class="fa fa-th-list">	</i></span>Phiếu chi của tôi</a>
 				<?php endif; ?>
-
+					
 
 				<?php if($_SESSION['login_type'] == 1): ?>
 				<a href="index.php?page=leave_type" class="nav-item nav-leave_type"><span class='icon-field'><i class="fa fa-th-list"></i></span> Note Type</a>
@@ -55,5 +56,8 @@
 	})
 	$('#add_customer').click(function(){
 		uni_modal("Thêm khách hàng mới","manage_customer.php","mid-large")
+	})
+	$('#add_supplier').click(function(){
+		uni_modal("Thêm nhà cung cấp mới","manage_supplier.php","mid-large")
 	})
 </script>
