@@ -109,18 +109,39 @@ if($action == "save_leave_c"){
 	if($save)
 		echo $save;
 }
+// lu thong tin phieu chi
 if($action == "save_leave"){
 	$save = $crud->save_leave();
 	if($save)
 		echo $save;
 }
+// luu thong tin phieu chi khach hang
 if($action == "save_leave_customer"){
 	$save = $crud->save_leave_customer();
 	if($save)
 		echo $save;
 }
+// luu thong tin phieu chi ncc
 if($action == "save_leave_supplier"){
 	$save = $crud->save_leave_supplier();
+	if($save)
+		echo $save;
+}
+// luu thong tin phieu thu
+if($action == "save_receipt"){
+	$save = $crud->save_receipt();
+	if($save)
+		echo $save;
+}
+// luu thong tin phieu thu khach hang
+if($action == "save_receipt_customer"){
+	$save = $crud->save_receipt_customer();
+	if($save)
+		echo $save;
+}
+// luu thong tin phieu thu ncc
+if($action == "save_receipt_supplier"){
+	$save = $crud->save_receipt_supplier();
 	if($save)
 		echo $save;
 }

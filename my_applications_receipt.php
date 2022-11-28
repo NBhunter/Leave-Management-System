@@ -7,7 +7,7 @@
 <div class="container-fluid">
 	<div class="col-lg-12">
 		<div class="card">
-			<div class="card-header">Danh sách chi </div>
+			<div class="card-header">Danh sách Thu </div>
 			<div class="card-body">
 				<table class="table table-bordered">
 					<thead>
@@ -24,13 +24,14 @@
 					</thead>
 					<tbody>
 					<?php 
-						$i = 1;
+						$i = 0;
 						$types = $conn->query("SELECT * FROM leave_type");
 						while($row=$types->fetch_assoc()){
 							$lt[$row['id']] = ucwords($row['name']);
 						}
-						$qry = $conn->query("SELECT * FROM leave_list where  `type` BETWEEN 1 AND 3 and employee_id= ".$_SESSION['details']['id']." ");
+						$qry = $conn->query("SELECT * FROM `leave_list` WHERE  `type` BETWEEN 4 AND 6 and employee_id= ".$_SESSION['details']['id']." ");
 						while($row=$qry->fetch_assoc()):
+							
 							$action_by = 'N/A';
 							if($row['status'] > 0){
 								$emp = $conn->query("SELECT *,concat(firstname,' ',middlename,' ' ,lastname) as name from employee_details where id = ".$row['approved_by']);
@@ -46,8 +47,8 @@
 							</td>
 							<td>
 								<p>Tháng: <b><?php echo $lt[$row['leave_type_id']] ?></b></p>
-								<p>Lí do: <b><?php  echo ($row['reason']) ?></b></p>
-								<?php if($row['type'] == 2): ?>
+								<p>Lí do: <b><?php   echo ($row['reason']) ?></b></p>
+								<?php if($row['type'] == 5): ?>
 									<p>loại Chi: <b>Khách hàng</b></p>
 									<?php
 										$emp = $conn->query("SELECT *  FROM `customer` WHERE `makh`= ".$row['customer_id']);
@@ -57,7 +58,7 @@
 									?>
 									<p>Tên khách hàng: <b><?php  echo ($customer['tenkh']) ?></b></p>
 									<p>Địa chỉ: <b><?php  echo ($customer['diachi']) ?></b></p>
-								<?php   elseif($row['type'] == 3): ?>
+								<?php   elseif($row['type'] == 6): ?>
 									<?php 
 										$emp = $conn->query("SELECT *  FROM `supplier` WHERE `id`= ".$row['supplier_id']);
 								if($emp->num_rows > 0 ){

@@ -10,11 +10,11 @@ if(isset($_GET['id'])){
 ?>
 <div class="container-fluid">
 	<div class="col-lg-12">
-		<form action="" id="manage-leave">
+		<form action="" id="manage-receipt-customer" >
 			<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '1' ?>">
+			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '5' ?>">
 			<div class="form-group">
-				<label for="" class="control-label">Tháng</label>
+			<label for="" class="control-label">Tháng</label>
 				<select name="leave_type_id" id="leave_type_id" class="custom-select" required>
 					<option value=""></option>
 					<?php 
@@ -27,8 +27,24 @@ if(isset($_GET['id'])){
 				<small><i>Bạn có quyền: <span id="credits">10</span></i></small>
 			</div>
 			<div class="on-ltchange" <?php echo isset($id) ? '' : 'style="display: none"' ?>>
+			<div class="form-group">
+				<br>
+					<label for="" class="control-label">Thông tin khách hàng</label>
 				<div class="form-group">
+					<label for="" class="control-label">Tên khách hàng</label>
+					<select name="customer_id" id="customer_id"  class="custom-select" required>
+					<option value=""></option>
+					<?php 
+					$ct = $conn->query("SELECT * FROM `customer` ");
+					while($row=$ct->fetch_array()):
+					?>
+					<option value="<?php echo $row['makh'] ?>" <?php echo isset($customer_id) && $customer_id == $row['makh'] ? "selected" : '' ?>><?php echo $row['tenkh'] ?></option>
+					<?php endwhile; ?>
+				</select>
+				</div>
 				
+				</div>
+				<div class="form-group">
 					<label for="" class="control-label">Ngày</label>
 					<input type="date" class="form-control" name="date_from" value="<?php echo isset($date_from) ? date("Y-m-d",strtotime($date_from)) : '' ?>">
 				</div>
@@ -40,16 +56,24 @@ if(isset($_GET['id'])){
 					<label for="" class="control-label">Lí do</label>
 					<textarea name="reason" cols="30" rows="2" class="form-control"><?php echo isset($reason) ? $reason : '' ?></textarea>
 				</div>
+				
+				</div>
 			</div>
 		</form>
 	</div>
 </div>
 <script>
+	
 	$(document).ready(function(){
 		if('<?php echo isset($id) ?>' == 1){
 			$('#leave_type_id').trigger('change')
 		}
 	})
+	$(document).ready(function () {
+      $('#custom').selectize({
+          sortField: 'text'
+      });
+  });
 	$('#leave_type_id').change(function(){
 		start_load()
 		if($('.err-msg').length > 0)
@@ -106,13 +130,14 @@ if(isset($_GET['id'])){
 			}
 
 	})
-	$('#manage-leave').submit(function(e){
+	$('#manage-receipt-customer').submit(function(e){
+		
 		e.preventDefault()
 		if($('.err-msg').length > 0)
 			return false;
 		start_load()
 		$.ajax({
-			url:'ajax.php?action=save_leave',
+			url:'ajax.php?action=save_receipt_customer',
 			method:'POST',
 			data:$(this).serialize(),
 			success:function(resp){
@@ -125,5 +150,28 @@ if(isset($_GET['id'])){
 			}
 		})
 
-	})
+	});
+	function getOptions(isFilter) {
+    return {
+        enableFiltering: isFilter,
+        enableCaseInsensitiveFiltering: isFilter,
+        filterPlaceholder: 'Search ...',
+        nonSelectedText: 'Check an option!',
+        numberDisplayed: 1,
+        maxHeight: 400,
+    }
+}
+function getOptions(isFilter) {
+    return {
+        enableFiltering: isFilter,
+        enableCaseInsensitiveFiltering: isFilter,
+        filterPlaceholder: 'Search ...',
+        nonSelectedText: 'Check an option!',
+        numberDisplayed: 1,
+        maxHeight: 400,
+    }
+}
+
+$('#DDLState').multiselect(getOptions(true));
+$('#DDLCity').multiselect(getOptions());
 </script>

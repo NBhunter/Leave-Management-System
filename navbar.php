@@ -17,13 +17,19 @@
 				<a href="index.php?page=applications" class="nav-item nav-applications"><span class='icon-field'><i class="fa fa-list-alt">	</i></span> Phiếu chi đã lập</a>
 				<?php endif; ?>
 				<?php if(isset($_SESSION['details']['type']) && $_SESSION['details']['type'] > 1): ?>
+				<!-- Lap phieu chi -->
 				<a href="javascript:void(0)" class="nav-item" id="add_leave_customer"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi khách hàng</a>
 				<a href="javascript:void(0)" class="nav-item" id="add_leave_supplier"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi nhà cung cấp</a>
 				<a href="javascript:void(0)" class="nav-item" id="add_leave"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu chi </a>
-				<a href="javascript:void(0)" class="nav-item" id="add_thu"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu thu</a>
+				<!-- lap phieu thu -->
+				<a href="javascript:void(0)" class="nav-item" id="add_receipt_customer"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu thu khách hàng</a>
+				<a href="javascript:void(0)" class="nav-item" id="add_receipt_supplier"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu thu nhà cung cấp</a>
+				<a href="javascript:void(0)" class="nav-item" id="add_receipt"><span class='icon-field'><i class="fa fa-plus">	</i></span> Lập phiếu thu</a>
+				<!-- tao thong tin khach hang va ncc -->
 				<a href="javascript:void(0)" class="nav-item" id="add_customer"><span class='icon-field'><i class="fa fa-plus">	</i></span> Thêm khách hàng</a>
 				<a href="javascript:void(0)" class="nav-item" id="add_supplier"><span class='icon-field'><i class="fa fa-plus">	</i></span> Thêm nhà cung cấp</a>
 				<a href="index.php?page=my_applications" class="nav-item nav-my_applications"><span class='icon-field'><i class="fa fa-th-list">	</i></span>Phiếu chi của tôi</a>
+				<a href="index.php?page=my_applications_receipt" class="nav-item nav-my_applications_receipt"><span class='icon-field'><i class="fa fa-th-list">	</i></span>Phiếu thu của tôi</a>
 				<?php endif; ?>
 					
 
@@ -59,5 +65,14 @@
 	})
 	$('#add_supplier').click(function(){
 		uni_modal("Thêm nhà cung cấp mới","manage_supplier.php","mid-large")
+	})
+	$('#add_receipt_customer').click(function(){
+		uni_modal("Phiếu Thu khách hàng mới","manage_receipt_customer.php","mid-large")
+	})
+	$('#add_receipt_supplier').click(function(){
+		uni_modal("Phiếu Thu nhà cung cấp mới","manage_receipt_repplier.php","mid-large")
+	})
+	$('#add_receipt').click(function(){
+		uni_modal("Phiếu Thu  mới","manage_receipt.php","mid-large")
 	})
 </script>

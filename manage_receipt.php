@@ -10,9 +10,9 @@ if(isset($_GET['id'])){
 ?>
 <div class="container-fluid">
 	<div class="col-lg-12">
-		<form action="" id="manage-leave">
+		<form action="" id="manage-receipt" >
 			<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '1' ?>">
+			<input type="hidden" name="type" value="<?php echo isset($type) ? $type : '4' ?>">
 			<div class="form-group">
 				<label for="" class="control-label">Tháng</label>
 				<select name="leave_type_id" id="leave_type_id" class="custom-select" required>
@@ -45,11 +45,17 @@ if(isset($_GET['id'])){
 	</div>
 </div>
 <script>
+	
 	$(document).ready(function(){
 		if('<?php echo isset($id) ?>' == 1){
 			$('#leave_type_id').trigger('change')
 		}
 	})
+	$(document).ready(function () {
+      $('#custom').selectize({
+          sortField: 'text'
+      });
+  });
 	$('#leave_type_id').change(function(){
 		start_load()
 		if($('.err-msg').length > 0)
@@ -106,13 +112,14 @@ if(isset($_GET['id'])){
 			}
 
 	})
-	$('#manage-leave').submit(function(e){
+	$('#manage-receipt').submit(function(e){
+		
 		e.preventDefault()
 		if($('.err-msg').length > 0)
 			return false;
 		start_load()
 		$.ajax({
-			url:'ajax.php?action=save_leave',
+			url:'ajax.php?action=save_receipt',
 			method:'POST',
 			data:$(this).serialize(),
 			success:function(resp){
@@ -125,5 +132,28 @@ if(isset($_GET['id'])){
 			}
 		})
 
-	})
+	});
+	function getOptions(isFilter) {
+    return {
+        enableFiltering: isFilter,
+        enableCaseInsensitiveFiltering: isFilter,
+        filterPlaceholder: 'Search ...',
+        nonSelectedText: 'Check an option!',
+        numberDisplayed: 1,
+        maxHeight: 400,
+    }
+}
+function getOptions(isFilter) {
+    return {
+        enableFiltering: isFilter,
+        enableCaseInsensitiveFiltering: isFilter,
+        filterPlaceholder: 'Search ...',
+        nonSelectedText: 'Check an option!',
+        numberDisplayed: 1,
+        maxHeight: 400,
+    }
+}
+
+$('#DDLState').multiselect(getOptions(true));
+$('#DDLCity').multiselect(getOptions());
 </script>

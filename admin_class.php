@@ -354,7 +354,7 @@ Class Action {
 			}
 			return $credits - $used;
 	}
-
+// ham luu thong tin phieu chi
 	function save_leave(){
 		extract($_POST);
 			$data=" leave_type_id = $leave_type_id ";
@@ -371,6 +371,7 @@ Class Action {
 			if($save)
 				return 1;
 	}
+	// ham luu phieu chi khach hang
 	function save_leave_customer(){
 		extract($_POST);
 			$data=" leave_type_id = '$leave_type_id' ";
@@ -388,6 +389,7 @@ Class Action {
 			if($save)
 				return 1;
 	}
+	// ham luu phieu chi ncc
 	function save_leave_supplier(){
 		extract($_POST);
 			$data=" leave_type_id = '$leave_type_id' ";
@@ -405,6 +407,59 @@ Class Action {
 			if($save)
 				return 1;
 	}
+	// ham luu thong tin phieu thu
+		function save_receipt(){
+			extract($_POST);
+				$data=" leave_type_id = $leave_type_id ";
+				$data.=", type = '$type' ";
+				$data.=", employee_id = ".$_SESSION['details']['id']." ";
+				$data.=", date_from = '$date_from' ";
+				$data.=",money = '$money' ";
+				$data.=", reason = '$reason' ";		
+				 if(empty($id)){
+				   $save = $this->db->query("INSERT INTO leave_list set $data");
+				}else{
+					$save = $this->db->query("UPDATE leave_list set $data where id = $id");
+				}
+				if($save)
+					return 1;
+		}
+		// ham luu phieu thu khach hang
+		function save_receipt_customer(){
+			extract($_POST);
+				$data=" leave_type_id = '$leave_type_id' ";
+				$data.=", type = '$type' ";
+				$data.=", customer_id = '$customer_id' ";
+				$data.=", employee_id = ".$_SESSION['details']['id']." ";
+				$data.=", date_from = '$date_from' ";
+				$data.=",money = '$money' ";
+				$data.=", reason = '$reason' ";		
+				 if(empty($id)){
+				   $save = $this->db->query("INSERT INTO leave_list set $data");
+				}else{
+					$save = $this->db->query("UPDATE leave_list set $data where id = $id");
+				}
+				if($save)
+					return 1;
+		}
+		// ham luu phieu thu ncc
+		function save_receipt_supplier(){
+			extract($_POST);
+				$data=" leave_type_id = '$leave_type_id' ";
+				$data.=", type = '$type' ";
+				$data.=", supplier_id = '$supplier_id' ";
+				$data.=", employee_id = ".$_SESSION['details']['id']." ";
+				$data.=", date_from = '$date_from' ";
+				$data.=",money = '$money' ";
+				$data.=", reason = '$reason' ";		
+				 if(empty($id)){
+				   $save = $this->db->query("INSERT INTO leave_list set $data");
+				}else{
+					$save = $this->db->query("UPDATE leave_list set $data where id = $id");
+				}
+				if($save)
+					return 1;
+		}
 	function save_customer(){
 		extract($_POST);
 			$data=" makh = '$makh' ";
@@ -419,6 +474,7 @@ Class Action {
 			if($save)
 				return 1;
 	}
+	// ham luu thong tin nha cung cap
 	function save_supplier(){
 		extract($_POST);
 			$data=" id = '$id' ";
@@ -450,7 +506,7 @@ Class Action {
 				return 1;	   
 	}
 
-
+// ham luu thong in khach hang
 	function save_khachang(){
 		extract($_POST);
 		$data = " makh = '$makh' ";

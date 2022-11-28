@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 25, 2022 lúc 03:05 PM
+-- Thời gian đã tạo: Th10 28, 2022 lúc 03:04 PM
 -- Phiên bản máy phục vụ: 10.4.24-MariaDB
 -- Phiên bản PHP: 8.1.6
 
@@ -168,7 +168,7 @@ CREATE TABLE `leave_list` (
   `leave_type_id` int(30) NOT NULL,
   `date_from` date NOT NULL,
   `money` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = Thu, 2= Chi KH, 3 = Chi NCC, 4 = Chi',
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1= Chi KH, 2= Chi NCC, 3 = Chi\r\n4= Thu, 5= thu KH, 6= thu NCC',
   `reason` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=pending,1= approved,2 = disapproved',
   `approved_by` int(30) NOT NULL,
@@ -182,23 +182,24 @@ CREATE TABLE `leave_list` (
 --
 
 INSERT INTO `leave_list` (`id`, `employee_id`, `customer_id`, `supplier_id`, `leave_type_id`, `date_from`, `money`, `type`, `reason`, `status`, `approved_by`, `date_approved`, `date_created`, `quy`) VALUES
-(2, 4, 0, 0, 1, '2020-10-19', 0, 1, 'Sample Only', 1, 2, '2022-11-18', '2020-10-12', 1000000),
-(15, 5, 0, 0, 4, '2022-11-12', 500000, 1, 'hi', 1, 2, '2022-11-18', '2022-11-18', 0),
-(16, 5, 0, 0, 4, '2022-11-19', 500000, 1, '1', 1, 2, '2022-11-18', '2022-11-18', 0),
-(24, 5, 0, 0, 3, '2022-11-10', 100900, 1, '111', 1, 2, '2022-11-18', '2022-11-18', 0),
-(33, 2, 0, 0, 1, '2022-11-26', 500000, 1, 'a00', 0, 0, '0000-00-00', '2022-11-18', NULL),
-(34, 5, 0, 0, 4, '2022-11-18', 500000, 2, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
-(35, 2, 0, 0, 1, '2022-11-19', 500000, 2, 'a', 0, 0, '0000-00-00', '2022-11-18', NULL),
+(2, 4, 0, 0, 1, '2020-10-19', 0, 4, 'Sample Only', 1, 2, '2022-11-18', '2020-10-12', 1000000),
+(15, 5, 0, 0, 4, '2022-11-12', 500000, 4, 'hi', 1, 2, '2022-11-18', '2022-11-18', 0),
+(16, 5, 0, 0, 4, '2022-11-19', 500000, 4, '1', 1, 2, '2022-11-18', '2022-11-18', 0),
+(24, 5, 0, 0, 3, '2022-11-10', 100900, 4, '111', 1, 2, '2022-11-18', '2022-11-18', 0),
+(33, 2, 0, 0, 1, '2022-11-26', 500000, 4, 'a00', 0, 0, '0000-00-00', '2022-11-18', NULL),
+(34, 5, 2, 0, 4, '2022-11-18', 500000, 2, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
+(35, 2, 3, 0, 1, '2022-11-19', 500000, 2, 'a', 0, 0, '0000-00-00', '2022-11-18', NULL),
 (36, 5, 0, 0, 1, '2022-11-19', 500000, 2, 'aa', 1, 2, '2022-11-18', '2022-11-18', NULL),
 (37, 5, 0, 0, 1, '2022-11-19', 50000, 1, 'aaa', 1, 2, '2022-11-18', '2022-11-18', NULL),
-(39, 5, 0, 0, 3, '2023-01-01', 89000000, 3, 'abc', 0, 0, '0000-00-00', '2022-11-23', NULL),
 (41, 5, 0, 0, 4, '2023-01-02', 500000, 2, 'customer', 2, 0, '0000-00-00', '2022-11-23', NULL),
 (42, 5, 0, 0, 3, '2023-01-15', 90000, 0, 'test2', 0, 0, '0000-00-00', '2022-11-23', NULL),
 (47, 5, 0, 0, 3, '2023-01-01', 9000000, 0, 'non', 0, 0, '0000-00-00', '2022-11-24', NULL),
 (50, 5, 14, 0, 4, '2023-02-12', 123456, 2, '123456', 1, 2, '2022-11-23', '2022-11-24', NULL),
 (51, 5, 1, 0, 3, '2023-01-11', 50000, 2, 'test2002', 0, 0, '0000-00-00', '2022-11-24', NULL),
 (52, 5, 0, 0, 4, '2023-02-02', 150000, 2, 'test123213', 0, 0, '0000-00-00', '2022-11-24', NULL),
-(53, 5, 0, 1, 3, '2023-01-12', 50000, 3, 'van chuyen hang', 0, 0, '0000-00-00', '2022-11-25', NULL);
+(53, 5, 0, 1, 3, '2023-01-12', 50000, 3, 'van chuyen hang', 0, 0, '0000-00-00', '2022-11-25', NULL),
+(54, 5, 2, 0, 4, '2023-02-12', 500000, 5, 'thu tien hoa don', 0, 0, '0000-00-00', '2022-11-28', NULL),
+(55, 5, 0, 3, 4, '2023-02-02', 85000, 6, 'hoan tien van chuyen', 0, 0, '0000-00-00', '2022-11-28', NULL);
 
 -- --------------------------------------------------------
 
@@ -395,7 +396,9 @@ CREATE TABLE `supplier` (
 
 INSERT INTO `supplier` (`id`, `sup_name`, `sup_address`) VALUES
 (1, 'CTY van chuyen ABC', 'TP.HCM'),
-(2, 'CTY van chuyen Bắc  Nam', 'TP.HCM');
+(2, 'CTY van chuyen Bắc  Nam', 'TP.HCM'),
+(3, 'Cty chế biến AGITECH', ''),
+(4, 'AGU', 'An Giang');
 
 -- --------------------------------------------------------
 
@@ -562,7 +565,7 @@ ALTER TABLE `leave_credits`
 -- AUTO_INCREMENT cho bảng `leave_list`
 --
 ALTER TABLE `leave_list`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT cho bảng `leave_type`
@@ -616,7 +619,7 @@ ALTER TABLE `position`
 -- AUTO_INCREMENT cho bảng `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
