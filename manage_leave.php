@@ -117,7 +117,7 @@ if(isset($_GET['id'])){
 			data:$(this).serialize(),
 			success:function(resp){
 				if(resp == 1){
-					alert_toast("Leave application successfully saved",'success');
+					alert_toast("đã lưu phiếu chi khác",'success');
 					setTimeout(function(){
 						location.reload()
 					},1000)

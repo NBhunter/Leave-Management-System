@@ -104,7 +104,7 @@
 		
 	})
 	$('.delete_leave').click(function(){
-		_conf("Are you sure to delete this leave application?","delete_leave",[$(this).attr('data-id')])
+		_conf("bạn có muốn xóa phiếu chi?","delete_leave",[$(this).attr('data-id')])
 	})
 	function delete_leave($id){
 		start_load()
@@ -114,7 +114,7 @@
 			data:{id:$id},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("đã xóa phiếu chi",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

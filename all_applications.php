@@ -30,7 +30,7 @@
 						while($row=$types->fetch_assoc()){
 							$lt[$row['id']] = ucwords($row['name']);
 						}
-						$qry = $conn->query("SELECT ll.*,concat(e.firstname,', ',e.middlename,' ',e.lastname) as name,e.employee_id as eID FROM leave_list ll inner join employee_details e on e.id = ll.employee_id  ");
+						$qry = $conn->query("SELECT ll.*,concat(e.firstname,', ',e.middlename,' ',e.lastname) as name,e.employee_id as eID FROM leave_list ll inner join employee_details e on e.id = ll.employee_id where ll.type BETWEEN 1 AND 3 ");
 						while($row=$qry->fetch_assoc()):
 							$action_by = 'N/A';
 							if($row['status'] > 0){
@@ -54,8 +54,24 @@
 								<p>Quỹ:<b style="color:#FF0000"><?php if($row['type'] == 2 && $row['status'] == 1) {$quy=$quy-$row['money'];} echo $quy; ?></b></p>
 								<?php if($row['type'] == 2): ?>
 									<p>loại Chi: <b>Khách hàng</b></p>
-								<?php elseif($row['type'] == 3): ?>
+									<?php
+										$emp = $conn->query("SELECT *  FROM `customer` WHERE `makh`= ".$row['customer_id']);
+								if($emp->num_rows > 0 ){
+										$customer = $emp->fetch_assoc();
+									}
+									?>
+									<p>Tên khách hàng: <b><?php  echo ($customer['tenkh']) ?></b></p>
+									<p>Địa chỉ: <b><?php  echo ($customer['diachi']) ?></b></p>
+								<?php   elseif($row['type'] == 3): ?>
+									<?php 
+										$emp = $conn->query("SELECT *  FROM `supplier` WHERE `id`= ".$row['supplier_id']);
+								if($emp->num_rows > 0 ){
+										$supplier = $emp->fetch_assoc();
+									}
+									?>
 									<p>loại Chi: <b>Nhà cung cấp</b></b></p>
+									<p>Tên nhà cung cấp: <b><?php  echo ($supplier['sup_name']) ?></b></p>
+									<p>Địa chỉ: <b><?php  echo ($supplier['sup_address']) ?></b></p>
 								<?php endif; ?>
 							</td>
 							<td>

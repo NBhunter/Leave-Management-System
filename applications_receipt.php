@@ -7,34 +7,43 @@
 <div class="container-fluid">
 	<div class="col-lg-12">
 		<div class="card">
-			<div class="card-header">Danh sách Thu </div>
+			<div class="card-header">Danh sách phiếu Thu</div>
 			<div class="card-body">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Ngày</th>
 							<th>Thông tin phiếu</th>
-							<th>Trạng thái</th>
 							<th>Số tiền</th>
+							<th>Trạng thái</th>
 							<th>Người duyệt</th>
 							<th>Ngày duyệt</th>
 							<th>Hành động</th>
 						</tr>
 					</thead>
 					<tbody>
-					<?php 
-						$i = 0;
+					    <?php  $quy=10000000; ?>
+						<?php 
+						$i = 1;
 						$types = $conn->query("SELECT * FROM leave_type");
 						while($row=$types->fetch_assoc()){
 							$lt[$row['id']] = ucwords($row['name']);
 						}
-						$qry = $conn->query("SELECT * FROM `leave_list` WHERE  `type` BETWEEN 4 AND 6 and employee_id= ".$_SESSION['details']['id']." ");
+						if($_SESSION['details']['type'] == 1)
+						$where = '';
+						if($_SESSION['details']['type'] == 2)
+						$where = "and e.department_id = '".$_SESSION['details']['department_id']."' " ;
+						if($_SESSION['details']['type'] == 3)
+						$where = "and e.manager_id = '".$_SESSION['details']['id']."' " ;
+						if($_SESSION['details']['type'] == 4)
+							$where = "and e.supervisor_id = '".$_SESSION['details']['id']."' " ;
+
+
+						$qry = $conn->query("SELECT ll.*,concat(e.lastname,', ',e.firstname,' ',e.middlename) as name,e.employee_id as eID FROM leave_list ll inner join employee_details e on e.id = ll.employee_id where ll.employee_id != '".$_SESSION['details']['id']."' $where and ll.type BETWEEN 4 AND 6  ");
 						while($row=$qry->fetch_assoc()):
-							
 							$action_by = 'N/A';
 							if($row['status'] > 0){
-								$emp = $conn->query("SELECT *,concat(firstname,' ',middlename,' ' ,lastname) as name from employee_details where id = ".$row['approved_by']);
+								$emp = $conn->query("SELECT *,concat(firstname,' ',middlename,' ',lastname) as name from employee_details where id = ".$row['approved_by']);
 								if($emp->num_rows > 0 ){
 									$action_by = ucwords($emp->fetch_array()['name']);
 								}
@@ -46,9 +55,10 @@
 								<?php echo date("d/m/Y",strtotime($row['date_from'])) ?>
 							</td>
 							<td>
-								<p>Tháng: <b><?php echo $lt[$row['leave_type_id']] ?></b></p>
-								<p>Lí do: <b><?php   echo ($row['reason']) ?></b></p>
-								<?php if($row['type'] == 5): ?>
+								<p>Nhân viên: <b><?php echo ucwords($row['name']). " (".$row['eID'].")" ?></b></p>
+								<p>Lí do: <b><?php  echo ($row['reason']) ?></b></p>
+								<p>Quỹ:<b><?php  if($row['type'] == 2 && $row['status'] == 1) {$quy=$quy-$row['money'];} echo $quy; ?></b></p>
+								<?php  if($row['type'] == 5): ?>
 									<p>loại Chi: <b>Khách hàng</b></p>
 									<?php
 										$emp = $conn->query("SELECT *  FROM `customer` WHERE `makh`= ".$row['customer_id']);
@@ -70,6 +80,9 @@
 									<p>Địa chỉ: <b><?php  echo ($supplier['sup_address']) ?></b></p>
 								<?php endif; ?>
 							</td>
+							<td>
+								<?php echo $row['money'] ?>
+							</td>
 							<td class="text-center">
 								<?php if($row['status'] == 0): ?>
 									<span class="badge badge-primary">Chờ duyệt</span>
@@ -80,16 +93,12 @@
 								<?php endif; ?>
 							</td>
 							<td>
-							<?php echo $row['money'] ?>
-						</td>
-							<td>
-								<?php echo $action_by ;
-								?>
+								<?php echo $action_by ?>
 							</td>
 							<td><?php echo $row['status'] > 0 ? date("d/m/Y",strtotime($row['date_approved'])) : 'N/A' ?></td>
 							<td class="text-center">
-								<button class="btn btn-sm btn-outline-primary edit_leave" type="button" data-id="<?php echo $row['id'] ?>" >Sửa</button>
-								<button class="btn btn-sm btn-outline-danger delete_leave" type="button" data-id="<?php echo $row['id'] ?>">Xóa</button>
+								<button class="btn btn-sm btn-outline-primary approved_leave" type="button" data-id="<?php echo $row['id'] ?>" >Đồng ý </button>
+								<button class="btn btn-sm btn-outline-danger decline_leave" type="button" data-id="<?php echo $row['id'] ?>">Từ chối</button>
 							</td>
 						</tr>
 					<?php endwhile;?>
@@ -100,22 +109,22 @@
 	</div>
 </div>
 <script>
-	$('.edit_leave').click(function(){
-		uni_modal("sửa phiếu thu","manage_leave.php?id="+$(this).attr('data-id'),"mid-large")
+	$('.approved_leave').click(function(){
+		_conf("Are you sure to approve this leave application?","action_leave",[$(this).attr('data-id'),1])
 		
 	})
-	$('.delete_leave').click(function(){
-		_conf("bạn muốn xóa phiếu thu?","delete_leave",[$(this).attr('data-id')])
+	$('.decline_leave').click(function(){
+		_conf("Are you sure to decline this leave application?","action_leave",[$(this).attr('data-id'),2])
 	})
-	function delete_leave($id){
+	function action_leave($id,$status){
 		start_load()
 		$.ajax({
-			url:'ajax.php?action=delete_leave',
+			url:'ajax.php?action=action_leave',
 			method:'POST',
-			data:{id:$id},
+			data:{id:$id,status:$status},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("đã xóa phiếu thu",'success')
+					alert_toast("Leave application succesffuly updated",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

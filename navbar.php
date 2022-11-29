@@ -11,10 +11,11 @@
 				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Home</a>
 				<?php if($_SESSION['login_type'] == 1): ?>
 				<a href="index.php?page=all_applications" class="nav-item nav-all_applications"><span class='icon-field'><i class="fa fa-list-alt">	</i></span>Phiếu chi đã lập</a>
-				<a href="index.php?page=all_thu" class="nav-item nav-all_applications"><span class='icon-field'><i class="fa fa-list-alt">	</i></span>Phiếu thu đã lập</a>
+				<a href="index.php?page=all_applications_receipt" class="nav-item nav-all_applications"><span class='icon-field'><i class="fa fa-list-alt">	</i></span>Phiếu thu đã lập</a>
 				<?php endif; ?>
 				<?php if(isset($_SESSION['details']['type']) && $_SESSION['details']['type'] < 5 ): ?>
 				<a href="index.php?page=applications" class="nav-item nav-applications"><span class='icon-field'><i class="fa fa-list-alt">	</i></span> Phiếu chi đã lập</a>
+				<a href="index.php?page=applications_receipt" class="nav-item nav-applications_receipt"><span class='icon-field'><i class="fa fa-list-alt">	</i></span> Phiếu Thu đã lập</a>
 				<?php endif; ?>
 				<?php if(isset($_SESSION['details']['type']) && $_SESSION['details']['type'] > 1): ?>
 				<!-- Lap phieu chi -->
